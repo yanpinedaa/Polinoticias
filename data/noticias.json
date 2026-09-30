@@ -1,0 +1,130 @@
+[
+  {
+    "id": 1,
+    "categoria": "ia",
+    "categoriaLabel": "Inteligencia Artificial",
+    "icono": "🤖",
+    "colorClase": "card-azul",
+    "titulo": "La IA generativa llega a los dispositivos móviles",
+    "resumen": "Los nuevos chips especializados permiten ejecutar modelos de lenguaje directamente en el teléfono, sin conexión a internet.",
+    "contenido": [
+      "Los nuevos chips especializados en inteligencia artificial permiten ejecutar modelos de lenguaje directamente en el dispositivo, sin necesidad de conexión a internet. Esto representa un cambio importante en términos de privacidad y velocidad de respuesta para millones de usuarios en todo el mundo.",
+      "Empresas fabricantes de semiconductores han anunciado colaboraciones con desarrolladores de modelos de IA para optimizar el rendimiento en hardware móvil durante los próximos meses, lo que permitirá que asistentes virtuales, traductores y correctores de texto funcionen completamente sin conexión.",
+      "Se espera que esta tecnología esté disponible en los teléfonos de gama media a partir del próximo año, democratizando el acceso a herramientas de inteligencia artificial avanzadas."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-09-18"
+  },
+  {
+    "id": 2,
+    "categoria": "hardware",
+    "categoriaLabel": "Hardware",
+    "icono": "🔋",
+    "colorClase": "card-verde",
+    "titulo": "Nuevos procesadores de bajo consumo energético",
+    "resumen": "Los últimos chips prometen hasta un 40% más de eficiencia energética sin sacrificar rendimiento.",
+    "contenido": [
+      "Los fabricantes de procesadores han presentado una nueva generación de chips que reducen el consumo energético hasta en un 40%, sin sacrificar el rendimiento en tareas cotidianas como navegación web, edición de documentos y reproducción multimedia.",
+      "Esta mejora se traduce directamente en una mayor duración de batería para laptops y dispositivos móviles, un aspecto especialmente valorado por estudiantes y profesionales que trabajan fuera de la oficina.",
+      "Los primeros dispositivos con esta tecnología llegarán al mercado en el último trimestre del año."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-09-15"
+  },
+  {
+    "id": 3,
+    "categoria": "software",
+    "categoriaLabel": "Software",
+    "icono": "🧩",
+    "colorClase": "card-naranja",
+    "titulo": "Actualización masiva en sistemas operativos móviles",
+    "resumen": "La nueva versión incorpora funciones de privacidad avanzadas y un rediseño visual completo.",
+    "contenido": [
+      "La actualización, disponible para la mayoría de los dispositivos compatibles, incorpora nuevas funciones de privacidad que permiten a los usuarios controlar con mayor detalle qué aplicaciones acceden a su cámara, micrófono y ubicación.",
+      "Además, se incluye un rediseño visual completo de la interfaz, con animaciones más fluidas y un modo oscuro mejorado que reduce el consumo de batería en pantallas OLED.",
+      "Los usuarios podrán descargar la actualización de forma gratuita durante las próximas semanas, según el cronograma de despliegue de cada fabricante."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-09-10"
+  },
+  {
+    "id": 4,
+    "categoria": "redes",
+    "categoriaLabel": "Redes",
+    "icono": "📡",
+    "colorClase": "card-morado",
+    "titulo": "5G avanzado llega a más ciudades este año",
+    "resumen": "La cobertura se amplía hacia zonas rurales, prometiendo velocidades hasta diez veces mayores.",
+    "contenido": [
+      "Los operadores de telecomunicaciones han anunciado la expansión de la cobertura 5G avanzado hacia zonas rurales y ciudades intermedias, un paso importante para reducir la brecha digital en el país.",
+      "Se espera que esta tecnología ofrezca velocidades de conexión hasta diez veces mayores que las redes 4G actuales, beneficiando especialmente a instituciones educativas y centros de salud en zonas alejadas.",
+      "El despliegue se realizará de forma progresiva durante los próximos dos años, priorizando las regiones con mayor densidad poblacional."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-09-05"
+  },
+  {
+    "id": 5,
+    "categoria": "ciberseguridad",
+    "categoriaLabel": "Ciberseguridad",
+    "icono": "🛡️",
+    "colorClase": "card-rosa",
+    "titulo": "Nueva vulnerabilidad crítica detectada en navegadores populares",
+    "resumen": "Expertos recomiendan actualizar de inmediato para evitar el robo de información sensible.",
+    "contenido": [
+      "Un equipo de investigadores en ciberseguridad detectó una vulnerabilidad crítica que afecta a varios navegadores web populares, permitiendo potencialmente el acceso no autorizado a información almacenada en el navegador.",
+      "Los fabricantes ya han lanzado parches de seguridad y recomiendan a todos los usuarios actualizar sus navegadores de inmediato para evitar riesgos.",
+      "Se recomienda además activar la autenticación en dos pasos en las cuentas más importantes como medida de protección adicional."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-09-02"
+  },
+  {
+    "id": 6,
+    "categoria": "startups",
+    "categoriaLabel": "Startups",
+    "icono": "🚀",
+    "colorClase": "card-teal",
+    "titulo": "Startup local recibe inversión millonaria para expandirse",
+    "resumen": "La compañía de tecnología educativa planea expandir sus operaciones a tres países de la región.",
+    "contenido": [
+      "Una startup colombiana especializada en tecnología educativa anunció haber recibido una inversión millonaria de un fondo internacional, lo que le permitirá expandir sus operaciones a tres países de la región durante el próximo año.",
+      "La compañía, fundada hace apenas tres años, ha crecido rápidamente gracias a su plataforma de aprendizaje personalizado basada en inteligencia artificial.",
+      "Con esta inversión, se espera además la creación de más de 50 nuevos empleos en el área de desarrollo de software."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-08-28"
+  },
+  {
+    "id": 7,
+    "categoria": "ia",
+    "categoriaLabel": "Inteligencia Artificial",
+    "icono": "🧠",
+    "colorClase": "card-azul",
+    "titulo": "Modelos de IA ahora pueden explicar su propio razonamiento",
+    "resumen": "La nueva generación de modelos permite entender paso a paso cómo llegan a una respuesta.",
+    "contenido": [
+      "Investigadores han desarrollado una nueva generación de modelos de inteligencia artificial capaces de mostrar, paso a paso, el razonamiento que siguieron para llegar a una respuesta determinada.",
+      "Esta capacidad, conocida como transparencia algorítmica, es especialmente valiosa en sectores como la medicina y el derecho, donde entender el porqué de una recomendación es tan importante como la recomendación misma.",
+      "Se espera que esta tecnología se integre en herramientas educativas y de asistencia profesional durante los próximos meses."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-08-20"
+  },
+  {
+    "id": 8,
+    "categoria": "hardware",
+    "categoriaLabel": "Hardware",
+    "icono": "💾",
+    "colorClase": "card-verde",
+    "titulo": "Nuevas memorias de almacenamiento duplican la velocidad de lectura",
+    "resumen": "La tecnología promete tiempos de carga casi instantáneos en laptops y consolas.",
+    "contenido": [
+      "Los fabricantes de componentes de almacenamiento presentaron una nueva generación de unidades que duplican la velocidad de lectura respecto a la generación anterior, reduciendo drásticamente los tiempos de carga en laptops, consolas y computadores de escritorio.",
+      "Esta mejora es especialmente notable en tareas como la edición de video en alta resolución y la carga de videojuegos con mundos abiertos extensos.",
+      "Se espera que el precio de estas unidades se reduzca de forma significativa durante el próximo año, facilitando su adopción masiva."
+    ],
+    "autor": "Redacción Polinoticias",
+    "fecha": "2026-08-12"
+  }
+]

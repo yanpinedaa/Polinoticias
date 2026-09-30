@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polinoticias — Noticias de tecnología</title>
+  <meta name="description" content="Polinoticias: las últimas noticias de tecnología, explicadas de forma clara y directa.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-pagina="inicio">
+
+  <div id="site-header"></div>
+
+  <section class="hero">
+    <div class="container">
+      <div>
+        <h1>Las noticias tecnológicas <span class="accent">que están cambiando el mundo</span></h1>
+        <p>Explora las últimas novedades en inteligencia artificial, software, hardware e innovación, explicadas de forma clara y directa.</p>
+        <div class="hero-actions">
+          <a href="noticias.html" class="btn btn-primario">Explorar noticias</a>
+          <a href="contacto.html" class="btn btn-secundario">Contáctanos</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">📰</div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="section-heading">
+      <h2>Noticias destacadas</h2>
+      <p>Lo más relevante en tecnología esta semana</p>
+    </div>
+    <div class="news-grid" id="destacadas" aria-live="polite">
+      <p>Cargando noticias…</p>
+    </div>
+  </div>
+
+  <section class="newsletter">
+    <div class="container">
+      <div>
+        <h2>Suscríbete a nuestro boletín tecnológico</h2>
+        <p>Recibe las noticias más importantes cada semana en tu correo.</p>
+      </div>
+      <form id="form-newsletter" novalidate>
+        <input type="email" placeholder="tu@correo.com" required aria-label="Correo electrónico">
+        <button type="submit" class="btn" style="background:#12203D;color:#fff;">Suscribirme</button>
+      </form>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="js/comun.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    // Carga las 3 noticias más recientes desde el JSON para la sección "Destacadas"
+    async function cargarDestacadas() {
+      const contenedor = document.getElementById("destacadas");
+      try {
+        const respuesta = await fetch("data/noticias.json");
+        if (!respuesta.ok) throw new Error("Respuesta no válida");
+        const noticias = await respuesta.json();
+        const destacadas = noticias.slice(0, 3);
+
+        contenedor.innerHTML = destacadas.map(n => `
+          <article class="news-card">
+            <div class="news-card__media ${n.colorClase}">${n.icono}</div>
+            <div class="news-card__body">
+              <span class="tag">${n.categoriaLabel}</span>
+              <h3>${n.titulo}</h3>
+              <p>${n.resumen}</p>
+              <div class="news-card__footer">
+                <a href="detalle.html?id=${n.id}">Ver más →</a>
+                <button class="fav-btn" data-fav-toggle="${n.id}" aria-label="Agregar a favoritos">
+                  ${esFavorito(n.id) ? "♥" : "♡"}
+                </button>
+              </div>
+            </div>
+          </article>
+        `).join("");
+
+        contenedor.querySelectorAll("[data-fav-toggle]").forEach(boton => {
+          boton.addEventListener("click", () => {
+            const id = Number(boton.dataset.favToggle);
+            const activo = alternarFavorito(id);
+            boton.textContent = activo ? "♥" : "♡";
+          });
+        });
+      } catch (error) {
+        console.error(error);
+        contenedor.innerHTML = `
+          <p>No se pudieron cargar las noticias. Si abriste este archivo directamente
+          desde el explorador de archivos, ejecútalo con un servidor local
+          (por ejemplo, la extensión "Live Server" de VS Code) y vuelve a intentarlo.</p>`;
+      }
+    }
+
+    document.getElementById("form-newsletter").addEventListener("submit", (evento) => {
+      evento.preventDefault();
+      evento.target.reset();
+      alert("¡Gracias por suscribirte! (simulación de envío)");
+    });
+
+    cargarDestacadas();
+  </script>
+</body>
+</html>

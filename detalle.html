@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle de la noticia — Polinoticias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-pagina="noticias">
+
+  <div id="site-header"></div>
+
+  <div class="container">
+    <p class="breadcrumb" id="breadcrumb">Inicio / Noticias / …</p>
+  </div>
+
+  <div class="container" id="contenido-articulo">
+    <p style="padding:40px 0;">Cargando noticia…</p>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="js/comun.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    const idParametro = Number(new URLSearchParams(window.location.search).get("id"));
+
+    async function cargarDetalle() {
+      const contenedor = document.getElementById("contenido-articulo");
+      try {
+        const respuesta = await fetch("data/noticias.json");
+        if (!respuesta.ok) throw new Error("Respuesta no válida");
+        const noticias = await respuesta.json();
+        const noticia = noticias.find(n => n.id === idParametro);
+
+        if (!noticia) {
+          contenedor.innerHTML = `
+            <div class="empty-state">
+              <span class="icon">📭</span>
+              No encontramos la noticia solicitada.<br>
+              <a href="noticias.html" class="btn btn-outline" style="margin-top:16px;">← Volver al listado</a>
+            </div>`;
+          return;
+        }
+
+        document.title = noticia.titulo + " — Polinoticias";
+        document.getElementById("breadcrumb").innerHTML =
+          `<a href="index.html">Inicio</a> / <a href="noticias.html">Noticias</a> / <strong>${noticia.titulo}</strong>`;
+
+        const relacionadas = noticias.filter(n => n.id !== noticia.id).slice(0, 3);
+        const fechaFormateada = new Date(noticia.fecha + "T00:00:00").toLocaleDateString("es-CO", {
+          day: "numeric", month: "long", year: "numeric"
+        });
+
+        contenedor.innerHTML = `
+          <div class="article-layout">
+            <div>
+              <span class="tag">${noticia.categoriaLabel}</span>
+              <h1>${noticia.titulo}</h1>
+              <p class="article-meta">Por ${noticia.autor} · ${fechaFormateada}</p>
+
+              <div class="article-media ${noticia.colorClase}">${noticia.icono}</div>
+
+              <div class="article-body">
+                ${noticia.contenido.map(parrafo => `<p>${parrafo}</p>`).join("")}
+              </div>
+
+              <div class="article-actions">
+                <button class="btn btn-primario" id="btn-favorito" data-id="${noticia.id}"></button>
+                <a href="noticias.html" class="btn btn-outline">← Volver</a>
+              </div>
+            </div>
+
+            <aside>
+              <div class="side-card">
+                <h3>Comparte esta noticia</h3>
+                <div class="share-row">
+                  <button aria-label="Compartir en Facebook" onclick="alert('Compartir en Facebook (simulación)')">f</button>
+                  <button aria-label="Compartir en X" onclick="alert('Compartir en X (simulación)')">X</button>
+                  <button aria-label="Compartir por correo" onclick="alert('Compartir por correo (simulación)')">✉</button>
+                </div>
+              </div>
+              <div class="side-card">
+                <h3>Más noticias</h3>
+                ${relacionadas.map(r => `
+                  <a href="detalle.html?id=${r.id}" class="related-item">
+                    <span class="emoji ${r.colorClase}">${r.icono}</span>
+                    <span class="titulo">${r.titulo}</span>
+                  </a>
+                `).join("")}
+              </div>
+            </aside>
+          </div>
+        `;
+
+        const botonFav = document.getElementById("btn-favorito");
+        function pintarBotonFav() {
+          const activo = esFavorito(noticia.id);
+          botonFav.textContent = activo ? "♥ Quitar de favoritos" : "♡ Agregar a favoritos";
+        }
+        pintarBotonFav();
+        botonFav.addEventListener("click", () => {
+          alternarFavorito(noticia.id);
+          pintarBotonFav();
+        });
+
+      } catch (error) {
+        console.error(error);
+        contenedor.innerHTML = `
+          <p>No se pudo cargar la noticia. Si abriste este archivo directamente
+          desde el explorador de archivos, ejecútalo con un servidor local
+          (por ejemplo, la extensión "Live Server" de VS Code) y vuelve a intentarlo.</p>`;
+      }
+    }
+
+    cargarDetalle();
+  </script>
+</body>
+</html>

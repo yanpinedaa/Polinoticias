@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noticias — Polinoticias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-pagina="noticias">
+
+  <div id="site-header"></div>
+
+  <div class="container">
+    <div class="section-heading">
+      <h2>Noticias de tecnología</h2>
+      <p id="contador-resultados">Cargando…</p>
+    </div>
+
+    <div class="filters">
+      <div class="search">
+        <input type="search" id="buscador" placeholder="Buscar noticias..." aria-label="Buscar noticias">
+      </div>
+      <div id="chips-categorias" role="group" aria-label="Filtrar por categoría"></div>
+    </div>
+
+    <div class="news-grid" id="grid-noticias" aria-live="polite">
+      <p>Cargando noticias…</p>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="js/comun.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    let TODAS_LAS_NOTICIAS = [];
+    let categoriaActiva = "todas";
+    let textoBusqueda = "";
+
+    async function cargarNoticias() {
+      const grid = document.getElementById("grid-noticias");
+      try {
+        const respuesta = await fetch("data/noticias.json");
+        if (!respuesta.ok) throw new Error("Respuesta no válida");
+        TODAS_LAS_NOTICIAS = await respuesta.json();
+        construirChipsCategorias();
+        renderizarNoticias();
+      } catch (error) {
+        console.error(error);
+        grid.innerHTML = `
+          <p>No se pudieron cargar las noticias. Si abriste este archivo directamente
+          desde el explorador de archivos, ejecútalo con un servidor local
+          (por ejemplo, la extensión "Live Server" de VS Code) y vuelve a intentarlo.</p>`;
+        document.getElementById("contador-resultados").textContent = "";
+      }
+    }
+
+    function construirChipsCategorias() {
+      const contenedor = document.getElementById("chips-categorias");
+      const categorias = [{ valor: "todas", etiqueta: "Todas" }];
+      const vistas = new Set();
+      TODAS_LAS_NOTICIAS.forEach(n => {
+        if (!vistas.has(n.categoria)) {
+          vistas.add(n.categoria);
+          categorias.push({ valor: n.categoria, etiqueta: n.categoriaLabel });
+        }
+      });
+
+      contenedor.innerHTML = categorias.map(c => `
+        <button class="chip" data-categoria="${c.valor}" aria-pressed="${c.valor === categoriaActiva}">
+          ${c.etiqueta}
+        </button>
+      `).join("");
+
+      contenedor.querySelectorAll("[data-categoria]").forEach(boton => {
+        boton.addEventListener("click", () => {
+          categoriaActiva = boton.dataset.categoria;
+          contenedor.querySelectorAll("[data-categoria]").forEach(b =>
+            b.setAttribute("aria-pressed", b.dataset.categoria === categoriaActiva));
+          renderizarNoticias();
+        });
+      });
+    }
+
+    function renderizarNoticias() {
+      const grid = document.getElementById("grid-noticias");
+      const contador = document.getElementById("contador-resultados");
+
+      const filtradas = TODAS_LAS_NOTICIAS.filter(n => {
+        const coincideCategoria = categoriaActiva === "todas" || n.categoria === categoriaActiva;
+        const coincideTexto = (n.titulo + " " + n.resumen).toLowerCase().includes(textoBusqueda.toLowerCase());
+        return coincideCategoria && coincideTexto;
+      });
+
+      contador.textContent = `${filtradas.length} artículo${filtradas.length === 1 ? "" : "s"} encontrado${filtradas.length === 1 ? "" : "s"}`;
+
+      if (filtradas.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <span class="icon">🔍</span>
+            No encontramos noticias que coincidan con tu búsqueda. Prueba con otra palabra clave o categoría.
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtradas.map(n => `
+        <article class="news-card">
+          <div class="news-card__media ${n.colorClase}">${n.icono}</div>
+          <div class="news-card__body">
+            <span class="tag">${n.categoriaLabel}</span>
+            <h3>${n.titulo}</h3>
+            <p>${n.resumen}</p>
+            <div class="news-card__footer">
+              <a href="detalle.html?id=${n.id}">Ver más →</a>
+              <button class="fav-btn" data-fav-toggle="${n.id}" aria-label="Agregar a favoritos">
+                ${esFavorito(n.id) ? "♥" : "♡"}
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      grid.querySelectorAll("[data-fav-toggle]").forEach(boton => {
+        boton.addEventListener("click", () => {
+          const id = Number(boton.dataset.favToggle);
+          const activo = alternarFavorito(id);
+          boton.textContent = activo ? "♥" : "♡";
+        });
+      });
+    }
+
+    document.getElementById("buscador").addEventListener("input", (evento) => {
+      textoBusqueda = evento.target.value;
+      renderizarNoticias();
+    });
+
+    cargarNoticias();
+  </script>
+</body>
+</html>

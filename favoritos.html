@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis favoritos — Polinoticias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-pagina="favoritos">
+
+  <div id="site-header"></div>
+
+  <div class="container">
+    <div class="section-heading">
+      <h2>Mis noticias favoritas</h2>
+      <p>Aquí encuentras las noticias que has guardado para leer más tarde.</p>
+    </div>
+
+    <div class="fav-list" id="lista-favoritos" aria-live="polite">
+      <p>Cargando…</p>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="js/comun.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    async function cargarFavoritos() {
+      const contenedor = document.getElementById("lista-favoritos");
+      const idsFavoritos = obtenerFavoritos();
+
+      if (idsFavoritos.length === 0) {
+        contenedor.innerHTML = `
+          <div class="empty-state">
+            <span class="icon">♡</span>
+            Todavía no has guardado ninguna noticia.<br>
+            <a href="noticias.html" class="btn btn-outline" style="margin-top:16px;">Explorar noticias</a>
+          </div>`;
+        return;
+      }
+
+      try {
+        const respuesta = await fetch("data/noticias.json");
+        if (!respuesta.ok) throw new Error("Respuesta no válida");
+        const noticias = await respuesta.json();
+        const favoritas = noticias.filter(n => idsFavoritos.includes(n.id));
+
+        contenedor.innerHTML = favoritas.map(n => `
+          <div class="fav-row" data-fila="${n.id}">
+            <span class="emoji ${n.colorClase}">${n.icono}</span>
+            <div class="info">
+              <h3><a href="detalle.html?id=${n.id}">${n.titulo}</a></h3>
+              <p>${n.categoriaLabel}</p>
+            </div>
+            <button class="quitar" data-quitar="${n.id}">Quitar</button>
+          </div>
+        `).join("");
+
+        contenedor.querySelectorAll("[data-quitar]").forEach(boton => {
+          boton.addEventListener("click", () => {
+            const id = Number(boton.dataset.quitar);
+            alternarFavorito(id);
+            document.querySelector(`[data-fila="${id}"]`).remove();
+            if (obtenerFavoritos().length === 0) cargarFavoritos();
+          });
+        });
+      } catch (error) {
+        console.error(error);
+        contenedor.innerHTML = `
+          <p>No se pudieron cargar tus favoritos. Si abriste este archivo directamente
+          desde el explorador de archivos, ejecútalo con un servidor local
+          (por ejemplo, la extensión "Live Server" de VS Code) y vuelve a intentarlo.</p>`;
+      }
+    }
+
+    cargarFavoritos();
+  </script>
+</body>
+</html>
